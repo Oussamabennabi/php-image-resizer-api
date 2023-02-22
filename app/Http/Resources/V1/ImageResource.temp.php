@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AlbumResource extends JsonResource
+class ImageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,10 @@ class AlbumResource extends JsonResource
             'id' => $this.id,
             'name' => $this.name,
             'created_at' => $this.created_at,
-            'updated_at' => $this.updated_at,
+            'original' => URL::to($this->path),
+            'output' =>URL::to($this->output_path),
+            'album_id' => $this.album_id,
         ];
     }
 }
 
-// TODO:  you can think of a resource like graphQL
- //for exmp lets say you want to return all AlbumData
- // but not the user_id well!! you can do that with
- //  resources. 

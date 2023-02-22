@@ -6,7 +6,7 @@ use App\Models\Album;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use Illuminate\Http\Response;
-
+use App\resources\V1\AlbumResource;
 class AlbumController extends Controller
 {
     /**
@@ -14,7 +14,8 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        // you can replace all with paginate
+        return AlbumResource::collection(Album::all());
       
     }
 
@@ -23,10 +24,11 @@ class AlbumController extends Controller
      */
     public function store(StoreAlbumRequest $request)
     {
-        echo "entered";
+        
         $album = new Album($request->all());
         $album->save();
-        return $album;
+        return new AlbumResource($album);
+
     }
 
     /**
@@ -34,9 +36,8 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        echo "entered show";
+        return new AlbumResource($album);
 
-        //
     }
 
     /**
@@ -44,7 +45,10 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
-        //
+        $album->update($request->all());
+        return new AlbumResource($album);
+
+        
     }
 
     /**
@@ -52,6 +56,7 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        //
+        $album->delete();
+        return response('album deleted successfuly!',204);
     }
 }
